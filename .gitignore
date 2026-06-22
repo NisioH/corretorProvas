@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ambientes Virtuais (Venv)
+.venv/
+venv/
+ENV/
+env/
+
+
+# Configurações de IDEs (PyCharm e VS Code)
+.idea/
+.vscode/
+*.swp
+*.bak
+
+# Arquivos de Variáveis de Ambiente e Segredos (CRÍTICO)
+.env
+.env.local
+.env.*
+.streamlit/secrets.toml
+
+# Arquivos do Sistema Operacional (Linux/OSX)
+.DS_Store
+Thumps.db
+*~
+
+# Arquivos gerados pelo Streamlit (opcional)
+.streamlit/config.toml
