@@ -6,6 +6,9 @@ from collections import defaultdict
 
 from google.genai import types  # <-- NOVA IMPORTAÇÃO AQUI
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from services.ai_corretor import AICorretor
 from services.gerador_pdf import GeradorRelatorioPDF
 

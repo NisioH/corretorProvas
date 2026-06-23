@@ -16,7 +16,7 @@ env/
 .vscode/
 *.swp
 *.bak
-
+*.pdf
 # Arquivos de Variáveis de Ambiente e Segredos (CRÍTICO)
 .env
 .env.local
