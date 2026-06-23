@@ -17,9 +17,6 @@ st.set_page_config(page_title="Corretor Escolar Inteligente", page_icon="📝", 
 st.title("📝 Assistente de Correção Escolar")
 st.write("---")
 
-# ==========================================
-# 1. RECUPERAÇÃO SILENCIOSA DA CHAVE (SECRETS)
-# ==========================================
 try:
     chave_api = st.secrets["GEMINI_API_KEY"]
 except (KeyError, FileNotFoundError):
@@ -40,9 +37,6 @@ with col3:
 
 st.write("---")
 
-# ==========================================
-# 2. MOTOR DA APLICAÇÃO
-# ==========================================
 if nome_professor and disciplina and turma:
 
     corretor = AICorretor(chave_api=chave_api)
@@ -59,7 +53,6 @@ if nome_professor and disciplina and turma:
             try:
                 mime_type = "application/pdf" if arquivo_gabarito.type == "application/pdf" else "image/jpeg"
 
-                # CORREÇÃO AQUI: Usando types.Part.from_bytes em vez de dicionário
                 conteudo_gabarito = types.Part.from_bytes(
                     data=arquivo_gabarito.read(),
                     mime_type=mime_type
@@ -76,9 +69,7 @@ if nome_professor and disciplina and turma:
             except Exception as e:
                 st.error(f"Erro ao ler gabarito: {e}")
 
-    # ==========================================
-    # 3. CORREÇÃO DOS ALUNOS E FILA INTELIGENTE
-    # ==========================================
+
     if st.session_state["gabarito_extraido"]:
         with st.expander("👀 Ver Gabarito Memorizado"):
             st.write(st.session_state["gabarito_extraido"])
@@ -125,7 +116,6 @@ if nome_professor and disciplina and turma:
             for index, (nome_aluno, lista_paginas) in enumerate(provas_por_aluno.items()):
                 lista_paginas.sort(key=lambda x: x[0])
 
-                # CORREÇÃO AQUI: Transformando a lista em objetos Part
                 conteudos_ordenados = [
                     types.Part.from_bytes(data=conteudo, mime_type=mime)
                     for num, conteudo, mime in lista_paginas

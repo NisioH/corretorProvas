@@ -10,7 +10,6 @@ class AICorretor:
         self.modelo = 'gemini-2.5-flash'
 
     def _chamar_api_com_retentativa(self, payload, max_tentativas=3):
-        """Amortecedor de falhas para a camada gratuita."""
         for tentativa in range(max_tentativas):
             try:
                 resposta = self.client.models.generate_content(
@@ -20,7 +19,6 @@ class AICorretor:
                 return resposta
             except Exception as e:
                 erro_str = str(e).lower()
-                # Se for erro de limite (429) ou servidor cheio (503), espera 15s e tenta de novo
                 if "429" in erro_str or "quota" in erro_str or "503" in erro_str:
                     if tentativa < max_tentativas - 1:
                         time.sleep(15)

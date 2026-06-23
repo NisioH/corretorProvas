@@ -30,7 +30,6 @@ class GeradorRelatorioPDF:
         self.pdf.line(10, 50, 200, 50)
         self.pdf.ln(5)
 
-        # Iteração das questões
         for questao, detalhes in dados_correcao.items():
             status = self._limpar_texto(detalhes.get("status", "Não avaliado"))
             feedback = self._limpar_texto(detalhes.get("feedback", "Sem comentários"))
