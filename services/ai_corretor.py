@@ -7,7 +7,7 @@ from google import genai
 class AICorretor:
     def __init__(self, chave_api):
         self.client = genai.Client(api_key=chave_api)
-        self.modelo = 'gemini-2.5-flash'
+        self.modelo = 'gemini-3.5-flash'
 
     def _chamar_api_com_retentativa(self, payload, max_tentativas=3):
         for tentativa in range(max_tentativas):
@@ -29,11 +29,16 @@ class AICorretor:
         prompt = f"""
         Você é um assistente educacional especialista. A professora informou que esta prova é da disciplina de: {disciplina}.
 
-        Sua primeira tarefa OBRIGATÓRIA é verificar a coerência. Analise o conteúdo do documento e compare com a disciplina informada.
-        Se o documento CLARAMENTE pertencer a outra matéria, retorne EXATAMENTE e APENAS a seguinte frase:
+        Sua tarefa é analisar o documento fornecido seguindo ESTA LÓGICA RIGOROSA EM DUAS ETAPAS:
+
+        PASSO 1: VERIFICAÇÃO DE COERÊNCIA (Regra de Segurança)
+        Avalie se o documento realmente pertence à disciplina de {disciplina}.
+        - EXCEÇÃO: Se o documento for apenas uma lista genérica de letras e números (ex: 1-A, 2-B), ASSUMA QUE ESTÁ CORRETO E CONTINUE.
+        - BLOQUEIO: Se o documento contiver textos, mapas, fórmulas ou palavras que CLARAMENTE pertencem a uma disciplina totalmente diferente (ex: enviou um mapa de Geografia, mas a disciplina informada foi Matemática), PARE A ANÁLISE IMEDIATAMENTE e retorne APENAS a seguinte frase exata:
         ERRO_DISCIPLINA_INCOMPATIVEL
 
-        Se o documento FOR COERENTE com {disciplina}:
+        PASSO 2: EXTRAÇÃO DE REGRAS (Se aprovado no Passo 1)
+        Se o documento for coerente com a disciplina ou for um gabarito genérico:
         1. Extraia cada questão e defina a regra clara para correção.
         2. Se for múltipla escolha, indique a letra correta. 
         3. Se for dissertativa/cálculo, indique as palavras-chave, conceitos ou passos esperados.
